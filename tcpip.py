@@ -1,6 +1,6 @@
 import socket, time
 import numpy as np
-import logging
+import logging, json
 
 class TCPIP():
     def __init__(self, tcpip_address, tcpip_port=6666, tcpip_terminator='\n'):
@@ -19,10 +19,12 @@ class TCPIP():
 
     def send(self, msg, delay=1.0):
         try:
-            # msg : a JSON-formatted string
+            # msg : a JSON-formatted string or dict to be converted to one
+            if isinstance(msg, dict):
+                msg = json.dumps(msg)
             self.socket.send(msg.encode(encoding='utf-8'))
             self.socket.send(self.tcpip_terminator.encode(encoding='utf-8'))
-        except TimeoutError:
+        except socket.timeout:
             logging.warning('Message did not send.')
           
         try:
