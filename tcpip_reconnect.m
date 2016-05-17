@@ -1,5 +1,10 @@
 %%
 function tcpip_reconnect(obj, cbdata, timeout)
+    global tcpip_reconnecting;
+    if tcpip_reconnecting==true
+        return
+    end
+    tcpip_reconnecting = true;
     if nargin==2
         timeout = 1e10;
     end
@@ -9,4 +14,5 @@ function tcpip_reconnect(obj, cbdata, timeout)
     %disp('Waiting for TCPIP connection...')
     fopen(server);
     %disp('TCPIP established')
+    tcpip_reconnecting = false;
 end

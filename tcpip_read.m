@@ -3,9 +3,10 @@ function tcpip_read(srvr, event)
     msg = fread(srvr, srvr.BytesAvailable);
     msg = native2unicode(msg, 'UTF-8');
     msg = msg';
+    disp(msg)
     msg = deblank(msg);
     msg = JSON.parse(msg);
-    %disp(msg)
+    disp(msg)
     
     siHandle = evalin('base', 'hSI');
     
@@ -18,7 +19,7 @@ function tcpip_read(srvr, event)
     siHandle.hScan2D.logFileCounter = msg.idx;
     
     % defaults
-    siHandle.hScan2D.logFramesPerFile = 1000;
+    siHandle.hScan2D.logFramesPerFile = 3000;
     siHandle.hStackManager.framesPerSlice = inf;
     siHandle.acqsPerLoop = 10000;
     siHandle.extTrigEnable = 1;
